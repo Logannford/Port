@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="\dist\output.css">
+</head>
+
+<body class="bg-black h-screen mx-12" v-scope>
+
+    <!--nav bar-->
+    <div class="">
+        <div class="text-white font-mono tracking-wide mt-10 absolute">
+            <div 
+                class="flex flex-col w-full"
+                @click="toggleNavMenu"
+            >
+                <span 
+                    class="bg-white rounded-xl h-1 w-10 my-2 duration-300"
+                    :class="{'rotate-45 duration-300': navActive }"
+                ></span>
+                <span 
+                    class="bg-white rounded-xl h-1 w-10 duration-300"
+                    :class="{'-rotate-45 w-10 duration-300 -mt-3': navActive }"
+                ></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="flex gap-x-10">
+            <!-- left side -->
+            <div class="w-full lg:w-2/3 p-20 pt-32">
+                <div class="w-full text-white p-5 font-thin text-[5rem]">
+                    <div class="flex flex-col gap-1">
+                        <div class="text-4xl">
+                            Hey! I'm Logan.
+                        </div>
+                        <div class="flex items-center mr-5">
+                            <div class="mr-4 py-1">
+                                I'm a Jr.
+                            </div>
+                            <div 
+                                class="flex overflow-hidden relative w-56" 
+                                id="parentDiv"  
+                                @vue:mounted="mounted()"
+                            >
+                                <div :class="{'-mt-80 duration-1000 absolute left-0': activeElement != 0}">
+                                    <span 
+                                        class="bg-red-500 py-1 px-2 child">
+                                        Frontend
+                                    </span>
+                                </div>
+                                <div :class="{'-mt-80 duration-1000 absolute left-0': activeElement != 1}">
+                                    <span class="bg-yellow-400 py-1 px-2 child">
+                                        Backend
+                                    </span>
+                                </div>
+
+                                <div :class="{'-mt-80 duration-1000 absolute left-0': activeElement != 2}">
+                                    <span class="bg-blue-600 py-1 px-2 child">
+                                        Fullstack
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-4xl">
+                            <span class="">
+                                Developer.
+                            </span>
+                            {{ navActive }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- Vue petite -->
+<script type="module">
+    import { createApp } from 'https://unpkg.com/petite-vue?module'
+    createApp({
+        flipTextArr: [],
+        activeElement: 0,
+        navActive: false,
+
+        mounted(){
+            let children = document.querySelectorAll("#parentDiv .child");
+            
+            //adding each child element to the array
+            for(let i = 0; i < children.length; i++) {
+                this.flipTextArr.push(children[i].textContent);      
+            }
+            //every 2 seconds, the activeElement will increment
+            setInterval(() => {
+                this.activeElement = (this.activeElement + 1) % this.flipTextArr.length
+            }, 2000);
+        },
+
+        toggleNavMenu(){
+            this.navActive = !this.navActive;
+        }
+
+    }).mount()
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@300;400&display=swap');
+
+
+    body{
+        font-family: 'Sofia Sans Extra Condensed', sans-serif;
+    }
+</style>
