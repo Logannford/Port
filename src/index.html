@@ -68,7 +68,9 @@
     </div>
 
     <!-- main -->
-    <div class="z-0 h-screen"> 
+    <div 
+        class="z-0 h-screen"
+    > 
         <div class="flex gap-x-10 p-20 pt-32">
             <!-- left side -->
             <div class="w-full lg:w-2/3">
@@ -144,8 +146,8 @@
             </div>
 
             <!-- Tech container -->
-            <div class="my-10 w-full">
-                <div class="border-2 border-white rounded-lg w-1/2 flex flex-wrap justify-center px-5 py-2 gap-x-5 gap-y-2">
+            <div class="my-10 w-full" >
+                <div class="border-b border-l border-white w-1/2 flex flex-wrap justify-center px-5 py-4 gap-x-5 gap-y-2">
                     <div class="w-1/4 flex justify-center border border-white">
                         PHP
                     </div>
@@ -178,11 +180,13 @@
 
 <!-- Vue petite -->
 <script type="module">
+
     import { createApp } from 'https://unpkg.com/petite-vue?module'
     createApp({
         flipTextArr: [],
         activeElement: 0,
         navActive: false,
+        hiddenElements: [],
 
         mounted(){
             let children = document.querySelectorAll("#parentDiv .child");
@@ -195,7 +199,21 @@
             setInterval(() => {
                 this.activeElement = (this.activeElement + 1) % this.flipTextArr.length
             }, 2000);
+
+            this.animateOnScroll();
         },
+
+        animateOnScroll(){
+            const observer = new IntersectionObserver((entries) => {
+                entries.foreach((entry) => {
+                    console.log(entry)
+                })
+            });
+
+            this.hiddenElements = document.querySelectorAll(".aos");
+            this.hiddenElements.forEach((el) => observer.observe(el));
+        },
+
 
         toggleNavMenu(){
             this.navActive = !this.navActive;
