@@ -71,11 +71,11 @@
     <div 
         class="z-0 h-screen"
     > 
-        <div class="flex gap-x-10 p-20 pt-32">
+        <div class="flex gap-x-10 p-20 pt-60">
             <!-- left side -->
             <div class="w-full lg:w-2/3">
                 <div class="w-full text-white p-5 font-thin text-[5rem]">
-                    <div class="flex flex-col gap-1 border-b border-white pb-5">
+                    <div class="flex flex-col gap-1pb-5">
                         <div class="text-4xl">
                             Hey! I'm Logan.
                         </div>
@@ -113,6 +113,17 @@
                             </span>
                         </div>
                     </div>
+                    <div 
+                        v-scope
+                        class="h-px bg-white my-6" 
+                        @vue:mounted="onload()" 
+                        :class="
+                            {
+                            'w-full duration-1000': loaded,
+                            'w-0': !loaded
+                        }"
+                    >
+                    </div>
 
                     <!-- under main header -->
                     <div class="text-xl mt-3">
@@ -131,6 +142,7 @@
             <!-- right side -->
             <div class="w-1/2 h-20">
                 <div class="border-t border-r border-white h-full"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -187,6 +199,7 @@
         activeElement: 0,
         navActive: false,
         hiddenElements: [],
+        loaded: false,
 
         mounted(){
             let children = document.querySelectorAll("#parentDiv .child");
@@ -201,6 +214,13 @@
             }, 2000);
 
             this.animateOnScroll();
+        },
+
+        //after 2 seconds, the 'loaded' will be turned to true
+        onload(){
+            setTimeout(() =>{
+                this.loaded = true;
+            }, 500);
         },
 
         animateOnScroll(){
